@@ -1,4 +1,3 @@
-'use strict'
 var __extends =
   (this && this.__extends) ||
   (function() {
@@ -29,9 +28,8 @@ var __assign =
     }
     return t
   }
-Object.defineProperty(exports, '__esModule', { value: true })
-var react_1 = require('react')
-var PyroContext_1 = require('./PyroContext')
+import React from 'react'
+import { getPyroConsumer } from './PyroContext'
 var PyroFieldInner = /** @class */ (function(_super) {
   __extends(PyroFieldInner, _super)
   function PyroFieldInner() {
@@ -63,21 +61,21 @@ var PyroFieldInner = /** @class */ (function(_super) {
     })
   }
   return PyroFieldInner
-})(react_1.default.PureComponent)
+})(React.PureComponent)
 var PyroField = /** @class */ (function(_super) {
   __extends(PyroField, _super)
   function PyroField() {
     var _this = (_super !== null && _super.apply(this, arguments)) || this
-    _this.PyroConsumer = PyroContext_1.getPyroConsumer()
+    _this.PyroConsumer = getPyroConsumer()
     return _this
   }
   PyroField.prototype.render = function() {
     var _this = this
-    return react_1.default.createElement(this.PyroConsumer, null, function(contextProps) {
-      return react_1.default.createElement(PyroFieldInner, __assign({}, _this.props, contextProps))
+    return React.createElement(this.PyroConsumer, null, function(contextProps) {
+      return React.createElement(PyroFieldInner, __assign({}, _this.props, contextProps))
     })
   }
   return PyroField
-})(react_1.default.PureComponent)
-exports.PyroField = PyroField
+})(React.PureComponent)
+export { PyroField }
 //# sourceMappingURL=PyroField.js.map

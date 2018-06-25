@@ -1,11 +1,9 @@
-'use strict'
-Object.defineProperty(exports, '__esModule', { value: true })
-var react_1 = require('react')
-var _a = react_1.default.createContext({}),
+import React from 'react'
+var _a = React.createContext({}),
   Consumer = _a.Consumer,
   Provider = _a.Provider
-exports.getPyroConsumer = function() {
+export var getPyroConsumer = function() {
   return Consumer
 }
-exports.PyroProvider = Provider
+export var PyroProvider = Provider
 //# sourceMappingURL=PyroContext.js.map

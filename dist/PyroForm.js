@@ -1,4 +1,3 @@
-'use strict'
 var __extends =
   (this && this.__extends) ||
   (function() {
@@ -157,9 +156,8 @@ var __generator =
       return { value: op[0] ? op[1] : void 0, done: true }
     }
   }
-Object.defineProperty(exports, '__esModule', { value: true })
-var react_1 = require('react')
-var PyroContext_1 = require('./PyroContext')
+import React from 'react'
+import { PyroProvider } from './PyroContext'
 var isPromise = function(value) {
   return Boolean(value) && typeof value.then === 'function'
 }
@@ -279,8 +277,8 @@ var PyroForm = /** @class */ (function(_super) {
       handleChange: this.handleChange,
       handleBlur: this.handleBlur,
     }
-    return react_1.default.createElement(
-      PyroContext_1.PyroProvider,
+    return React.createElement(
+      PyroProvider,
       { value: contextValue },
       this.props.children({
         handleSubmit: this.handleSubmit,
@@ -291,6 +289,6 @@ var PyroForm = /** @class */ (function(_super) {
     )
   }
   return PyroForm
-})(react_1.default.PureComponent)
-exports.default = PyroForm
+})(React.PureComponent)
+export default PyroForm
 //# sourceMappingURL=PyroForm.js.map
