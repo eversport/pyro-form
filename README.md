@@ -16,7 +16,7 @@ TODO
 
 ## TODO
 
-- [] Add ts-lint
-- [] Add tests
-- [] Add example
-- [] Add documentation
+- [ ] Add ts-lint
+- [ ] Add tests
+- [ ] Add example
+- [ ] Add documentation
