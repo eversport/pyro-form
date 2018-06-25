@@ -1,5 +1,5 @@
 {
-  "name": "pyro-form",
+  "name": "@eversports/pyro-form",
   "version": "0.0.1",
   "description": "Pyro-Form is a fast and simple forms manager that helps you with managing the state of components in a form.",
   "keywords": [

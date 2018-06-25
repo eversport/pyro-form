@@ -13,3 +13,10 @@ TODO
 ## Who already uses Pyro-Form?
 
 - Eversports
+
+## TODO
+
+- [] Add ts-lint
+- [] Add tests
+- [] Add example
+- [] Add documentation
