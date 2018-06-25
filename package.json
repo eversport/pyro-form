@@ -1,6 +1,6 @@
 {
   "name": "@eversports/pyro-form",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pyro-Form is a fast and simple forms manager that helps you with managing the state of components in a form.",
   "keywords": [
     "forms",
@@ -11,10 +11,12 @@
   ],
   "scripts": {
     "build": "tsc",
-    "precommit": "yarn build && git add dist && lint-staged"
+    "precommit": "yarn build && git add dist && lint-staged",
+    "publish-patch": "yarn publish --patch && git push origin master --tags"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
+      "tslint --fix",
       "prettier --parser typescript --write",
       "git add"
     ],
@@ -37,6 +39,9 @@
     "lint-staged": "^7.2.0",
     "prettier": "^1.13.5",
     "react": "^16.4.1",
+    "tslint": "^5.10.0",
+    "tslint-consistent-codestyle": "^1.13.1",
+    "tslint-react": "^3.6.0",
     "typescript": "^2.9.2"
   },
   "prettier": {

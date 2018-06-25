@@ -1,9 +1,10 @@
 import React from 'react'
-import { PyroFormErrors, PyroFormTouched, PyroFormValues } from './typings'
 import { PyroContextProps, PyroProvider } from './PyroContext'
+import { PyroFormErrors, PyroFormTouched, PyroFormValues } from './typings'
 
 const isPromise = (value: any): boolean => Boolean(value) && typeof value.then === 'function'
 
+// tslint:disable-next-line: no-empty-interface
 interface PyroFormActions {}
 
 interface RenderProps<Values> {

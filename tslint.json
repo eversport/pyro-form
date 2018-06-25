@@ -1,0 +1,48 @@
+{
+  "defaultSeverity": "error",
+  "extends": ["tslint:latest", "tslint-react", "tslint-consistent-codestyle"],
+  "jsRules": {},
+  "rules": {
+    "no-unnecessary-type-assertion": true,
+    "promise-function-async": true,
+
+    // Functionality
+    "await-promise": true,
+    "curly": [true, "ignore-same-line"],
+    "no-floating-promises": true,
+    "no-for-in-array": true,
+    "no-implicit-dependencies": false,
+    "no-this-assignment": [true, { "allow-destructuring": true }],
+    "prefer-object-spread": true,
+    "no-submodule-imports": false,
+    "max-classes-per-file": false,
+    "no-unused-expression": [true, "allow-fast-null-checks"],
+
+    // Maintainability
+    "eofline": false,
+    "object-literal-sort-keys": false,
+    "trailing-comma": false,
+
+    // Style
+    "array-type": [true, "generic"],
+    "arrow-parens": false,
+    "arrow-return-shorthand": true,
+    "interface-name": [true, "never-prefix"],
+    "no-angle-bracket-type-assertion": true,
+    "no-redundant-jsdoc": true,
+    "no-unnecessary-callback-wrapper": true,
+    "object-literal-shorthand": true,
+    "quotemark": false,
+    "semicolon": false,
+    "whitespace": false,
+    "object-literal-key-quotes": [true, "as-needed"],
+    "jsx-boolean-value": [true, "never"],
+    "jsx-no-multiline-js": false,
+    "early-exit": true,
+    "no-unnecessary-else": true,
+    "no-unnecessary-type-annotation": true
+  },
+  "linterOptions": {
+    "exclude": ["dist/*"]
+  }
+}
