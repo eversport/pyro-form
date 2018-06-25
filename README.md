@@ -31,7 +31,7 @@ TODO
 
 ## TODO
 
-- [ ] Add ts-lint
+- [x] Add ts-lint
 - [ ] Add tests
 - [ ] Add example
 - [ ] Add documentation
