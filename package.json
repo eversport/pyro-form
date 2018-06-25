@@ -1,0 +1,52 @@
+{
+  "name": "pyro-form",
+  "version": "0.0.1",
+  "description": "Pyro-Form is a fast and simple forms manager that helps you with managing the state of components in a form.",
+  "keywords": [
+    "forms",
+    "react",
+    "react-dom",
+    "pyro-form",
+    "field"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "precommit": "yarn build && git add dist && lint-staged"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --parser typescript --write",
+      "git add"
+    ],
+    "*.{js,jsx}": [
+      "prettier --parser flow --write",
+      "git add"
+    ]
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "https://github.com/eversport/pyro-form.git",
+  "author": "Lukas Kuehnert <lukas.kuehnert@gmail.com>",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^16.4.1"
+  },
+  "devDependencies": {
+    "@types/react": "^16.4.1",
+    "husky": "^0.14.3",
+    "lint-staged": "^7.2.0",
+    "prettier": "^1.13.5",
+    "react": "^16.4.1",
+    "typescript": "^2.9.2"
+  },
+  "prettier": {
+    "printWidth": 100,
+    "useTabs": false,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "bracketSpacing": true,
+    "arrowParens": "avoid"
+  },
+  "dependencies": {}
+}
