@@ -23,12 +23,12 @@ Compared to the most popular form management libraries for react:
 
 ## Installation
 
-Add via Yarn:
+Add via [Yarn](https://www.npmjs.com/package/@eversports/pyro-form):
 ```
 yarn add @eversports/pyro-form
 ```
 
-Add via NPM:
+Add via [NPM](https://www.npmjs.com/package/@eversports/pyro-form):
 ```
 npm i @eversports/pyro-form
 ```
