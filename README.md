@@ -40,7 +40,7 @@ If you would like us to support other ways of using formik please open an issue.
 
 Here is a simple example for a login form.
 
-```
+``` jsx harmony
 // Define initial values for the form
 const initialValues = {
   email: '',
@@ -70,7 +70,7 @@ export const BasicExample = () => (
 
 The referenced inputs look like this:
 
-```
+``` jsx harmony
 // Wrap a simple input with the field (PyroField recognices events and pulls there value automatically)
 export class SimpleInput extends React.PureComponent {
   public render() {
