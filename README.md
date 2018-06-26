@@ -21,7 +21,7 @@ You probably think now "Ok I get why I need to use a form manager. But why shoul
 | **Minified** | 117.5kB | 39.7kB | 113.1kB | **6kB** |
 | **Minified+Gzipped** | 27.4kB | 11.4kB | 30.1kB | **2kB** |
 
-## Installation````
+## Installation
 
 Add via [Yarn](https://www.npmjs.com/package/@eversports/pyro-form):
 ```
@@ -38,7 +38,72 @@ If you would like us to support other ways of using formik please open an issue.
 
 ## Example
 
-TODO
+Here is a simple example for a login form.
+
+```
+// Define initial values for the form
+const initialValues = {
+  email: '',
+  password: '',
+}
+
+// Define an onSubmit handler (this is optional, you could also instead define an onChange handler)
+const onSubmit = (values) => {
+  console.log('onSubmit', values)
+}
+
+// PyroForm expects a render function as a child (if you don't know what this is you can
+// read more here: https://reactjs.org/docs/render-props.html#using-props-other-than-render)
+export const BasicExample = () => (
+  <PyroForm initialValues={initialValues} onSubmit={onSubmit}>
+    {({ handleSubmit }) => (
+      <form onSubmit={handleSubmit}>
+        <h1>Basic Example</h1>
+        <ComplexInput name="email" type="email" />
+        <SimpleInput name="password" type="password" />
+        <button type="submit">Submit</button>
+      </form>
+    )}
+  </PyroForm>
+)
+```
+
+The referenced inputs look like this:
+
+```
+// Wrap a simple input with the field (PyroField recognices events and pulls there value automatically)
+export class SimpleInput extends React.PureComponent {
+  public render() {
+    return (
+      <PyroField name={this.props.name}>
+        {({ core }) => <input {...this.props} {...core} />}
+      </PyroField>
+    )
+  }
+}
+
+// Wrap a complex input with the field (You can also map the received value manually)
+export class ComplexInput extends React.PureComponent {
+  public render() {
+    return (
+      <PyroField name={this.props.name}>
+        {({ core }) => (
+          <input
+            {...this.props}
+            {...core}
+            onChange={(e) => core.onChange(getValueFromEvent(e))}
+          />
+        )}
+      </PyroField>
+    )
+  }
+}
+```
+
+If you want to try more:
+ 1) Clone the repository: ```git clone git@github.com:eversport/pyro-form.git```
+ 2) Start the dev server: ```yarn run dev```
+ 3) Play around in the ```/example``` folder and try crazy stuff 
 
 ## Documentation
 
