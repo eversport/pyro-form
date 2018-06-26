@@ -18,8 +18,8 @@ You probably think now "Ok I get why I need to use a form manager. But why shoul
   
 | | Redux-Form | Formik | React-Form | Pyro-Form |
 | --- | --- | --- | --- | --- |
-| **Minified** | 117.5kB | 39.7kB | 113.1kB | **6kB** |
-| **Minified+Gzipped** | 27.4kB | 11.4kB | 30.1kB | **2kB** |
+| **Minified** | 117.5kB | 39.7kB | 113.1kB | **6.2kB** |
+| **Minified+Gzipped** | 27.4kB | 11.4kB | 30.1kB | **2.1kB** |
 
 ## Installation
 
