@@ -16,10 +16,10 @@
     "lib:build": "tsc",
     "lib:dev": "tsc --watch",
     "precommit": "lint-staged",
-    "prepublish": "yarn lib:build && yarn example:build && git add dist && git add public && lint-staged",
-    "publish-patch": "git pull origin master && yarn publish --patch && git push origin master --tags",
-    "publish-minor": "git pull origin master && yarn publish --minor && git push origin master --tags",
-    "publish-major": "git pull origin master && yarn publish --major && git push origin master --tags"
+    "all:build": "yarn lib:build && yarn example:build && git add dist && git add public && lint-staged",
+    "publish-patch": "git pull origin master && all:build && yarn publish --patch && git push origin master --tags",
+    "publish-minor": "git pull origin master && all:build && yarn publish --minor && git push origin master --tags",
+    "publish-major": "git pull origin master && all:build && yarn publish --major && git push origin master --tags"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
