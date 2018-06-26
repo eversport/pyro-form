@@ -4,3 +4,8 @@ export declare const getValueFromEvent: (
     value: string
   }>
 ) => string
+export declare const isEvent: (
+  event: any
+) => event is React.SyntheticEvent<{
+  value: string
+}>

@@ -1,6 +1,6 @@
 {
   "name": "@eversports/pyro-form",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Pyro-Form is a fast and simple form manager for react that helps you with managing your components data in a form.",
   "keywords": [
     "forms",

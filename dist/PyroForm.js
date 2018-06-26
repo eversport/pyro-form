@@ -157,6 +157,7 @@ var __generator =
     }
   }
 import React from 'react'
+import { getValueFromEvent, isEvent } from './helper'
 import { PyroProvider } from './PyroContext'
 var isPromise = function(value) {
   return Boolean(value) && typeof value.then === 'function'
@@ -210,8 +211,11 @@ var PyroForm = /** @class */ (function(_super) {
         })
       })
     }
-    // @ts-ignore Since the usage of name and value below is also ignored this will throw an unused parameter error
     _this.handleChange = function(name, value) {
+      // Check if passed value is an event and use it's value
+      if (isEvent(value)) {
+        value = getValueFromEvent(value)
+      }
       _this.setState(
         function(state) {
           var _a
