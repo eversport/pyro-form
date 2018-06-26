@@ -6,7 +6,7 @@ Pyro-Form is a fast and simple form manager that helps you with managing the sta
 
 Compact, simple and fast state management in react is hard. Pyro-Form takes away all the worries while still allowing you to hook into every process you want. I allows you to build forms fast, keeps overhead minimal and makes maintainability a breeze. 
 
-You probably think now "Ok I get why I need to use a form manager, but why use Pyro-Form and not one of the others out there?"
+You probably think now "Ok I get why I need to use a form manager. But why should I use Pyro-Form and not one of the others out there?"
 
 1) **Pyro form is small** (and in the JS world size does matter) - Since Pyro-Form was built with the overall package size in mind it has zero external dependencies which makes it so small (2kb gzipped 😱).
 
