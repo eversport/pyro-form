@@ -116,6 +116,6 @@ TODO
 ## TODO
 
 - [x] Add ts-lint
+- [x] Add example
 - [ ] Add tests
-- [ ] Add example
 - [ ] Add documentation
