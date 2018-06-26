@@ -11,8 +11,12 @@
     "field"
   ],
   "scripts": {
-    "build": "tsc",
-    "precommit": "yarn build && git add dist && lint-staged",
+    "example:dev": "tsc --project config && webpack-dev-server --config config/webpack.config.js --port 3000 --hot",
+    "example:build": "tsc --project config && webpack-cli --config config/webpack.config.js",
+    "lib:build": "tsc",
+    "lib:dev": "tsc --watch",
+    "precommit": "lint-staged",
+    "prepublish": "yarn lib:build && yarn example:build && git add dist && git add public && lint-staged",
     "publish-patch": "git pull origin master && yarn publish --patch && git push origin master --tags",
     "publish-minor": "git pull origin master && yarn publish --minor && git push origin master --tags",
     "publish-major": "git pull origin master && yarn publish --major && git push origin master --tags"
@@ -37,15 +41,25 @@
     "react": "^16.3.0"
   },
   "devDependencies": {
+    "@types/html-webpack-plugin": "^2.30.3",
     "@types/react": "^16.4.1",
+    "@types/react-dom": "^16.0.6",
+    "@types/webpack": "^4.4.3",
+    "html-webpack-plugin": "^3.2.0",
     "husky": "^0.14.3",
     "lint-staged": "^7.2.0",
     "prettier": "^1.13.5",
     "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-hot-loader": "^4.3.3",
+    "ts-loader": "^4.4.1",
     "tslint": "^5.10.0",
     "tslint-consistent-codestyle": "^1.13.1",
     "tslint-react": "^3.6.0",
-    "typescript": "^2.9.2"
+    "typescript": "^2.9.2",
+    "webpack": "^4.12.1",
+    "webpack-cli": "^3.0.8",
+    "webpack-dev-server": "^3.1.4"
   },
   "prettier": {
     "printWidth": 100,

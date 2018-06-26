@@ -1,4 +1,5 @@
 import React from 'react'
+import { getValueFromEvent, isEvent } from './helper'
 import { PyroContextProps, PyroProvider } from './PyroContext'
 import { PyroFormErrors, PyroFormTouched, PyroFormValues } from './typings'
 
@@ -102,8 +103,15 @@ class PyroForm<Values extends { [key: string]: any }> extends React.PureComponen
     }))
   }
 
-  // @ts-ignore Since the usage of name and value below is also ignored this will throw an unused parameter error
-  private handleChange = <T extends keyof Values>(name: T, value: Values[T]) => {
+  private handleChange = <T extends keyof Values>(
+    name: T,
+    value: Values[T] | React.ChangeEvent<{ value: string }>
+  ) => {
+    // Check if passed value is an event and use it's value
+    if (isEvent(value)) {
+      value = getValueFromEvent(value)
+    }
+
     this.setState(
       state => ({
         values: {

@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "sourceMap": true,
+    "lib": ["es5", "es6", "es7", "dom"],
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "jsx": "react",
+    "strict": true
+  },
+  "include": [".", "../dist"],
+  "exclude": [
+    "node_modules"
+  ]
+}

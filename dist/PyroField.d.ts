@@ -1,9 +1,9 @@
 import React from 'react'
-interface PyroFieldProps<Values, Name extends keyof Values> {
-  name: Name
-  children: (props: PyroFieldInnerRenderProps<Values, Name>) => React.ReactNode
-}
-export interface PyroFieldInnerRenderProps<Values, Name extends keyof Values> {
+import { PyroFieldProps } from './typings'
+export interface PyroFieldInnerRenderProps<
+  Values = any,
+  Name extends Extract<keyof Values, string> = any
+> {
   core: {
     name: Name
     value: Values[Name]
@@ -17,9 +17,8 @@ export interface PyroFieldInnerRenderProps<Values, Name extends keyof Values> {
   }
 }
 export declare class PyroField<Values> extends React.PureComponent<
-  PyroFieldProps<Values, keyof Values>
+  PyroFieldProps<Values, Extract<keyof Values, string>>
 > {
   private PyroConsumer
   render(): JSX.Element
 }
-export {}

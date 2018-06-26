@@ -1,16 +1,15 @@
 import React from 'react'
 import { getPyroConsumer, PyroContextProps } from './PyroContext'
+import { PyroFieldProps } from './typings'
 
-interface PyroFieldProps<Values, Name extends keyof Values> {
-  name: Name
-  children: (props: PyroFieldInnerRenderProps<Values, Name>) => React.ReactNode
-}
-
-interface PyroFieldInnerProps<Values, Name extends keyof Values>
+interface PyroFieldInnerProps<Values, Name extends Extract<keyof Values, string>>
   extends PyroFieldProps<Values, Name>,
     Partial<PyroContextProps<Values, Name>> {}
 
-export interface PyroFieldInnerRenderProps<Values, Name extends keyof Values> {
+export interface PyroFieldInnerRenderProps<
+  Values = any,
+  Name extends Extract<keyof Values, string> = any
+> {
   core: {
     name: Name
     value: Values[Name]
@@ -24,9 +23,10 @@ export interface PyroFieldInnerRenderProps<Values, Name extends keyof Values> {
   }
 }
 
-class PyroFieldInner<Values, Name extends keyof Values> extends React.PureComponent<
-  PyroFieldInnerProps<Values, Name>
-> {
+class PyroFieldInner<
+  Values,
+  Name extends Extract<keyof Values, string>
+> extends React.PureComponent<PyroFieldInnerProps<Values, Name>> {
   public render() {
     if (!this.props.values || !this.props.errors || !this.props.touched) {
       throw new Error('Please use PyroField Components only within a PyroForm')
@@ -56,13 +56,20 @@ class PyroFieldInner<Values, Name extends keyof Values> extends React.PureCompon
   }
 }
 
-export class PyroField<Values> extends React.PureComponent<PyroFieldProps<Values, keyof Values>> {
+export class PyroField<Values> extends React.PureComponent<
+  PyroFieldProps<Values, Extract<keyof Values, string>>
+> {
   private PyroConsumer = getPyroConsumer<Values>()
 
   public render() {
     return (
       <this.PyroConsumer>
-        {contextProps => <PyroFieldInner<Values, keyof Values> {...this.props} {...contextProps} />}
+        {contextProps => (
+          <PyroFieldInner<Values, Extract<keyof Values, string>>
+            {...this.props}
+            {...contextProps}
+          />
+        )}
       </this.PyroConsumer>
     )
   }
