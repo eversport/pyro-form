@@ -1,6 +1,6 @@
 {
   "name": "@eversports/pyro-form",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Pyro-Form is a fast and simple form manager for react that helps you with managing your components data in a form.",
   "keywords": [
     "forms",
@@ -17,9 +17,9 @@
     "lib:dev": "tsc --watch",
     "precommit": "lint-staged",
     "all:build": "yarn lib:build && yarn example:build && git add dist && git add public && lint-staged",
-    "publish-patch": "git pull origin master && all:build && yarn publish --patch && git push origin master --tags",
-    "publish-minor": "git pull origin master && all:build && yarn publish --minor && git push origin master --tags",
-    "publish-major": "git pull origin master && all:build && yarn publish --major && git push origin master --tags"
+    "publish-patch": "git pull origin master && yarn all:build && yarn publish --patch && git push origin master --tags",
+    "publish-minor": "git pull origin master && yarn all:build && yarn publish --minor && git push origin master --tags",
+    "publish-major": "git pull origin master && yarn all:build && yarn publish --major && git push origin master --tags"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
