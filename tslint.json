@@ -43,6 +43,6 @@
     "no-unnecessary-type-annotation": true
   },
   "linterOptions": {
-    "exclude": ["dist/*"]
+    "exclude": ["dist/*", "public/*"]
   }
 }
