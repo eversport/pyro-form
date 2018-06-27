@@ -4,11 +4,16 @@ import { PyroFormErrors, PyroFormTouched } from './typings'
 const { Consumer, Provider } = React.createContext<Partial<PyroContextProps>>({})
 
 export const getPyroConsumer = <Values extends {}>() =>
-  (Consumer as any) as React.SFC<ConsumerProps<Partial<PyroContextProps<Values, keyof Values>>>>
+  (Consumer as any) as React.SFC<
+    ConsumerProps<Partial<PyroContextProps<Values, Extract<keyof Values, string>>>>
+  >
 
 export const PyroProvider = Provider
 
-export interface PyroContextProps<Values = {}, Name extends keyof Values = keyof Values> {
+export interface PyroContextProps<
+  Values = {},
+  Name extends Extract<keyof Values, string> = Extract<keyof Values, string>
+> {
   values: Values
   errors: PyroFormErrors<Values>
   touched: PyroFormTouched<Values>

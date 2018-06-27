@@ -103,7 +103,7 @@ class PyroForm<Values extends { [key: string]: any }> extends React.PureComponen
     }))
   }
 
-  private handleChange = <T extends keyof Values>(
+  private handleChange = <T extends Extract<keyof Values, string>>(
     name: T,
     value: Values[T] | React.ChangeEvent<{ value: string }>
   ) => {
@@ -129,12 +129,12 @@ class PyroForm<Values extends { [key: string]: any }> extends React.PureComponen
     )
   }
 
-  private handleBlur = <T extends keyof Values>(name: T) => {
+  private handleBlur = <T extends Extract<keyof Values, string>>(name: T) => {
     this.setTouched(name)
   }
 
   // @ts-ignore Since the usage of name and value below is also ignored this will throw an unused parameter error
-  private setTouched = <T extends keyof Values>(name: T) => {
+  private setTouched = <T extends Extract<keyof Values, string>>(name: T) => {
     this.setState(state => ({
       touched: {
         // @ts-ignore Sadly spreading generic values still not work in typescript
