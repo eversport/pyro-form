@@ -2,6 +2,7 @@
 
 config/*.js
 config/*.js.map
+.rpt2_cache
 
 # Created by https://www.gitignore.io/api/node,webstorm+all
 
