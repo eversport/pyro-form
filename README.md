@@ -8,7 +8,7 @@ Compact, simple and fast state management in react is hard. Pyro-Form takes away
 
 You probably think now "Ok I get why I need to use a form manager. But why should I use Pyro-Form and not one of the others out there?"
 
-1) **Pyro form is small** (and in the JS world size does matter) - Since Pyro-Form was built with the overall package size in mind it has zero external dependencies which makes it so small (2kb gzipped 😱). For more information see the size comparison [here](#comparison-with-the-most-popular-form-management-libraries-for-react).
+1) **Pyro form is small** (and in the JS world size does matter) - Since Pyro-Form was built with the overall package size in mind it has zero external dependencies which makes it so small (1.1kb gzipped 😱). For more information see the size comparison [here](#comparison-with-the-most-popular-form-management-libraries-for-react).
 
 2) **Simple API** - Why make it hard when it can be so easy? The API provides you with all necessary hooks you are used to while not making you worry about them if you don't want to. Also the Field Wrapper Component will allow you to make your components reuseable and easy-to-use with almost no changes to your current codebase.  
 
@@ -18,8 +18,8 @@ You probably think now "Ok I get why I need to use a form manager. But why shoul
   
 | | Redux-Form | Formik | React-Form | Pyro-Form |
 | --- | --- | --- | --- | --- |
-| **Minified** | 117.5kB | 39.7kB | 113.1kB | **6.2kB** |
-| **Minified+Gzipped** | 27.4kB | 11.4kB | 30.1kB | **2.1kB** |
+| **Minified** | 117.5kB | 39.7kB | 113.1kB | **2.9kB** |
+| **Minified+Gzipped** | 27.4kB | 11.4kB | 30.1kB | **1.1kB** |
 
 ## Installation
 
