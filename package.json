@@ -1,5 +1,5 @@
 {
-  "name": "@eversports/pyro-form",
+  "name": "pyro-form",
   "version": "0.0.12",
   "description": "Pyro-Form is a fast and simple form manager for react that helps you with managing your components data in a form.",
   "keywords": [
@@ -11,6 +11,7 @@
     "field"
   ],
   "scripts": {
+    "lib:build2": "tsc --project config && rollup -c config/rollup.config.js",
     "example:dev": "tsc --project config && webpack-dev-server --config config/webpack.config.js --port 3000 --hot",
     "example:build": "tsc --project config && webpack-cli --config config/webpack.config.js",
     "lib:build": "tsc",
@@ -32,8 +33,11 @@
       "git add"
     ]
   },
-  "main": "dist/index.js",
+  "main": "dist/pyro-form.cjs.js",
+  "module": "dist/pyro-form.esm.js",
+  "browser": "dist/pyro-form.umd.js",
   "types": "dist/index.d.ts",
+  "files": ["dist"],
   "repository": "https://github.com/eversport/pyro-form.git",
   "author": "Lukas Kuehnert <lukas.kuehnert@gmail.com>",
   "license": "MIT",
@@ -52,6 +56,11 @@
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-hot-loader": "^4.3.3",
+    "rollup": "^0.63.2",
+    "rollup-plugin-json": "^3.0.0",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-sucrase": "^2.0.0",
+    "rollup-plugin-typescript2": "^0.15.1",
     "ts-loader": "^4.4.1",
     "tslint": "^5.10.0",
     "tslint-consistent-codestyle": "^1.13.1",
