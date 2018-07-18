@@ -23,14 +23,14 @@ You probably think now "Ok I get why I need to use a form manager. But why shoul
 
 ## Installation
 
-Add via [Yarn](https://www.npmjs.com/package/@eversports/pyro-form):
+Add via [Yarn](https://www.npmjs.com/package/treylon/pyro-form):
 ```
-yarn add @eversports/pyro-form
+yarn add pyro-form
 ```
 
-Add via [NPM](https://www.npmjs.com/package/@eversports/pyro-form):
+Add via [NPM](https://www.npmjs.com/package/treylon/pyro-form):
 ```
-npm i @eversports/pyro-form
+npm i pyro-form
 ```
 
 If you would like us to support other ways of using formik please open an issue.
