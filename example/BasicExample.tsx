@@ -1,5 +1,5 @@
 import React from 'react'
-import PyroForm from '../dist'
+import PyroForm from '../'
 import { ComplexInput, SimpleInput } from './CustomInput'
 
 // Only for typescript people

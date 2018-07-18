@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react'
-import { getValueFromEvent, PyroField, PyroFormValues } from '../dist'
+import { getValueFromEvent, PyroField, PyroFormValues } from '../'
 
 interface InputProps<Name extends string> extends React.InputHTMLAttributes<HTMLInputElement> {
   name: Name
