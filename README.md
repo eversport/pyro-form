@@ -23,12 +23,12 @@ You probably think now "Ok I get why I need to use a form manager. But why shoul
 
 ## Installation
 
-Add via [Yarn](https://www.npmjs.com/package/treylon/pyro-form):
+Add via [Yarn](https://www.npmjs.com/package/pyro-form):
 ```
 yarn add pyro-form
 ```
 
-Add via [NPM](https://www.npmjs.com/package/treylon/pyro-form):
+Add via [NPM](https://www.npmjs.com/package/pyro-form):
 ```
 npm i pyro-form
 ```
