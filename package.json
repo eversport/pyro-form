@@ -16,7 +16,7 @@
     "lib:build": "tsc --project config && rollup -c config/rollup.config.js",
     "lib:dev": "tsc --project config && rollup -c config/rollup.config.js --watch",
     "precommit": "lint-staged",
-    "all:build": "yarn lib:build && yarn example:build && git add dist && git add public && lint-staged",
+    "all:build": "yarn lib:build && yarn example:build && git add public && lint-staged",
     "publish-patch": "git pull origin master && yarn all:build && yarn publish --patch && git push origin master --tags",
     "publish-minor": "git pull origin master && yarn all:build && yarn publish --minor && git push origin master --tags",
     "publish-major": "git pull origin master && yarn all:build && yarn publish --major && git push origin master --tags"
