@@ -9,8 +9,7 @@ function _interopDefault(ex) {
 var React = _interopDefault(require('react'))
 
 const getValueFromEvent = event => event.currentTarget.value
-const isEvent = event =>
-  event && event.target && event.target.value && typeof event.target.value === 'string'
+const isEvent = event => event && event.target && typeof event.target.value === 'string'
 
 const { Consumer, Provider } = React.createContext({})
 const getPyroConsumer = () => Consumer
