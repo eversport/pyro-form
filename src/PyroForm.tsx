@@ -62,8 +62,7 @@ class PyroForm<Values extends { [key: string]: any }> extends React.PureComponen
     // TODO: Add some error handling here if no children are passed
     const contextValue: PyroContextProps = {
       values: this.state.values,
-      // @ts-ignore Sadly spreading generic values still not work in typescript
-      errors: { ...this.state.errors, ...errors },
+      errors: this.getErrors(),
       touched: this.state.touched,
       handleChange: this.handleChange,
       handleBlur: this.handleBlur,
@@ -74,7 +73,7 @@ class PyroForm<Values extends { [key: string]: any }> extends React.PureComponen
         {this.props.children({
           handleSubmit: this.handleSubmit,
           values: this.state.values,
-          errors: this.state.errors,
+          errors: this.getErrors(),
           hasErrors: !this.isValid(),
         })}
       </PyroProvider>
@@ -82,6 +81,10 @@ class PyroForm<Values extends { [key: string]: any }> extends React.PureComponen
   }
 
   private getPyroFormActions = (): PyroFormActions => ({})
+
+  private getErrors = (): PyroFormErrors<Values> =>
+    // @ts-ignore Sadly spreading generic values still not work in typescript
+    ({ ...this.state.errors, ...this.props.errors })
 
   private handleSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
     if (e) {
@@ -149,8 +152,7 @@ class PyroForm<Values extends { [key: string]: any }> extends React.PureComponen
   }
 
   private isValid = (): boolean => {
-    // @ts-ignore Sadly spreading generic values still not work in typescript
-    return Object.keys({ ...this.state.errors, ...this.props.errors }).length === 0
+    return Object.keys(this.getErrors()).length === 0
   }
 
   private handleValidate = () => {
