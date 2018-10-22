@@ -149,7 +149,8 @@ class PyroForm<Values extends { [key: string]: any }> extends React.PureComponen
   }
 
   private isValid = (): boolean => {
-    return Object.keys(this.state.errors).length === 0
+    // @ts-ignore Sadly spreading generic values still not work in typescript
+    return Object.keys({ ...this.state.errors, ...this.props.errors }).length === 0
   }
 
   private handleValidate = () => {
