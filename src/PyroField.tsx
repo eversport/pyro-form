@@ -1,6 +1,6 @@
 import React from 'react'
 import { getPyroConsumer, PyroContextProps } from './PyroContext'
-import { PyroFieldProps } from './typings'
+import { PyroFieldProps, PyroFormErrors } from './typings'
 
 interface PyroFieldInnerProps<Values, Name extends Extract<keyof Values, string>>
   extends PyroFieldProps<Values, Name>,
@@ -12,7 +12,7 @@ export interface PyroFieldInnerRenderProps<
 > {
   core: {
     name: Name
-    value: Values[Name]
+    value: Values[Name] | PyroFormErrors<Values>[Name]
     onChange: (value: Values[Name]) => void
     onBlur: () => void
   }
@@ -35,7 +35,7 @@ class PyroFieldInner<
     return this.props.children({
       core: {
         name: this.props.name,
-        value: this.props.values[this.props.name],
+        value: this.getValue(),
         onChange: this.handleChange,
         onBlur: this.handleBlur,
       },
@@ -45,6 +45,14 @@ class PyroFieldInner<
         touched: this.props.touched[this.props.name],
       },
     })
+  }
+
+  private getValue = (): Values[Name] | PyroFormErrors<Values>[Name] => {
+    if (this.props.errors && this.props.errors[this.props.name]) {
+      return this.props.errors[this.props.name]
+    }
+
+    return this.props.values![this.props.name]
   }
 
   private handleChange = (value: Values[Name]) => {

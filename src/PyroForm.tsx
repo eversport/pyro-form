@@ -18,6 +18,7 @@ interface RenderProps<Values> {
 interface PyroFormProps<Values extends PyroFormValues> {
   initialValues: Values
   children: (renderProps: RenderProps<Values>) => React.ReactNode
+  errors?: PyroFormErrors<Values>
   onSubmit?: (values: Values, actions: PyroFormActions) => void | Promise<void>
   onChange?: (values: Values, actions: PyroFormActions) => void | Promise<void>
   onValidate?: (values: Values, actions: PyroFormActions) => PyroFormErrors<Values>
@@ -56,10 +57,13 @@ class PyroForm<Values extends { [key: string]: any }> extends React.PureComponen
   }
 
   public render() {
+    const { errors } = this.props
+
     // TODO: Add some error handling here if no children are passed
     const contextValue: PyroContextProps = {
       values: this.state.values,
-      errors: this.state.errors,
+      // @ts-ignore Sadly spreading generic values still not work in typescript
+      errors: { ...this.state.errors, ...errors },
       touched: this.state.touched,
       handleChange: this.handleChange,
       handleBlur: this.handleBlur,

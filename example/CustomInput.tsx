@@ -5,7 +5,7 @@ interface InputProps<Name extends string> extends React.InputHTMLAttributes<HTML
   name: Name
 }
 
-// Wrap a simple input with the field (PyroField recognices events and pulls there value automatically)
+// Wrap a simple input with the field (PyroField recognizes events and pulls their value automatically)
 export class SimpleInput<
   InitialValuesType extends PyroFormValues = any
 > extends React.PureComponent<InputProps<Extract<keyof InitialValuesType, string>>> {
