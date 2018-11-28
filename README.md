@@ -33,7 +33,7 @@ Add via [NPM](https://www.npmjs.com/package/pyro-form):
 npm i pyro-form
 ```
 
-If you would like us to support other ways of using formik please open an issue.
+If you would like us to support other ways of using pyro-form please open an issue.
 
 
 ## Example
