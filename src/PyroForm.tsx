@@ -88,6 +88,7 @@ class PyroForm<Values extends { [key: string]: any }> extends React.PureComponen
       e.preventDefault()
     }
 
+    this.setTouchedAll()
     const { onSubmit } = this.props
 
     if (onSubmit) {
@@ -146,6 +147,12 @@ class PyroForm<Values extends { [key: string]: any }> extends React.PureComponen
         [name]: true,
       },
     }))
+  }
+
+  private setTouchedAll = () => {
+    for (const key of Object.keys(this.state.values)) {
+      this.setTouched(key as Extract<keyof Values, string>)
+    }
   }
 
   private isValid = (): boolean => {

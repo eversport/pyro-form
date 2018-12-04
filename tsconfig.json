@@ -8,7 +8,7 @@
     "outDir": "./dist",
     "strict": true,
     "jsx": "react",
-    "lib": ["es2015", "dom", "es2015.promise"],
+    "lib": ["es2015", "dom", "es2015.promise", "es2017.object"],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true
   },
