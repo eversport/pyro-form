@@ -1,6 +1,6 @@
 {
   "name": "pyro-form",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Pyro-Form is a fast and simple form manager for react that helps you with managing your components data in a form.",
   "keywords": [
     "forms",
