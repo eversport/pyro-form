@@ -1,15 +1,18 @@
 import React from 'react'
 import PyroForm, { PyroFormChangeData } from '../'
 import { ComplexInput, SimpleInput } from './CustomInput'
+import HookInput from './HookInput'
 
 // Only for typescript people
 interface InitialValues {
+  name: string
   email: string
   password: string
 }
 
 // Define initial values for the form
 const initialValues = {
+  name: '',
   email: '',
   password: '',
 }
@@ -46,6 +49,7 @@ export const BasicExample = () => (
     {({ handleSubmit }) => (
       <form onSubmit={handleSubmit}>
         <h1>Basic Example</h1>
+        <HookInput<InitialValues> name="name" type="text" />
         <ComplexInput<InitialValues> name="email" type="email" />
         <SimpleInput<InitialValues> name="password" type="password" />
         <button type="submit">Submit</button>

@@ -69,7 +69,7 @@ class PyroForm<Values extends { [key: string]: any }> extends React.PureComponen
 
   public render() {
     // TODO: Add some error handling here if no children are passed
-    const contextValue: PyroContextProps = {
+    const contextValue = {
       values: this.state.values,
       errors: this.getErrors(),
       touched: this.state.touched,

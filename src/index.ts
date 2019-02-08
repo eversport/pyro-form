@@ -1,4 +1,5 @@
 export { default, PyroFormChangeData, PyroFormSubmitData } from './PyroForm'
+export { default as usePyroField } from './usePyroField'
 export * from './PyroField'
 export * from './PyroContext'
 export * from './helper'

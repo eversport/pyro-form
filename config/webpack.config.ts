@@ -18,9 +18,9 @@ const config: webpack.Configuration = {
     filename: 'bundle.js',
   },
   plugins: [
-    new HtmlWebpackPlugin({
+    (new HtmlWebpackPlugin({
       template: path.join(root, 'example', 'index.html'),
-    }),
+    }) as unknown) as webpack.Plugin,
   ],
 }
 
