@@ -1,12 +1,23 @@
 import React from 'react'
-import { getValueFromEvent, isEvent } from './helper'
+import { getValueFromEvent, isEvent, isPromise } from './helper'
 import { PyroContextProps, PyroProvider } from './PyroContext'
 import { PyroFormErrors, PyroFormTouched, PyroFormValues } from './typings'
 
-const isPromise = (value: any): boolean => Boolean(value) && typeof value.then === 'function'
+export interface PyroFormChangeData<Values, T extends Extract<keyof Values, string>> {
+  changedName: T
+  changedValue: Values[T]
+  onChange: (
+    name: T,
+    value: Values[T] | (Values[T] extends string ? React.ChangeEvent<{ value: string }> : never)
+  ) => void
+}
 
-// tslint:disable-next-line: no-empty-interface
-interface PyroFormActions {}
+export interface PyroFormSubmitData<Values> {
+  onChange: <T extends Extract<keyof Values, string>>(
+    name: T,
+    value: Values[T] | (Values[T] extends string ? React.ChangeEvent<{ value: string }> : never)
+  ) => void
+}
 
 interface RenderProps<Values> {
   handleSubmit: () => void
@@ -19,9 +30,9 @@ interface PyroFormProps<Values extends PyroFormValues> {
   initialValues: Values
   children: (renderProps: RenderProps<Values>) => React.ReactNode
   errors?: PyroFormErrors<Values>
-  onSubmit?: (values: Values, actions: PyroFormActions) => void | Promise<void>
-  onChange?: (values: Values, actions: PyroFormActions) => void | Promise<void>
-  onValidate?: (values: Values, actions: PyroFormActions) => PyroFormErrors<Values>
+  onSubmit?: (values: Values, actions: PyroFormSubmitData<Values>) => void | Promise<void>
+  onChange?: (values: Values, actions: PyroFormChangeData<Values, any>) => void | Promise<void>
+  onValidate?: (values: Values) => PyroFormErrors<Values>
   onValid?: () => void
   onInvalid?: () => void
 }
@@ -78,9 +89,19 @@ class PyroForm<Values extends { [key: string]: any }> extends React.PureComponen
     )
   }
 
-  private getPyroFormActions = (): PyroFormActions => ({})
+  private getChangeData = <T extends Extract<keyof Values, string>>(
+    changedName: T,
+    changedValue: Values[T]
+  ): PyroFormChangeData<Values, T> => ({
+    changedName,
+    changedValue,
+    onChange: this.handleChange,
+  })
 
-  // @ts-ignore Sadly spreading generic values still not work in typescript
+  private getSubmitData = (): PyroFormSubmitData<Values> => ({
+    onChange: this.handleChange,
+  })
+
   private getErrors = (): PyroFormErrors<Values> => ({ ...this.state.errors, ...this.props.errors })
 
   private handleSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
@@ -92,7 +113,7 @@ class PyroForm<Values extends { [key: string]: any }> extends React.PureComponen
     const { onSubmit } = this.props
 
     if (onSubmit) {
-      const result = onSubmit(this.state.values, this.getPyroFormActions)
+      const result = onSubmit(this.state.values, this.getSubmitData())
 
       if (isPromise(result)) {
         this.setState({
@@ -110,25 +131,22 @@ class PyroForm<Values extends { [key: string]: any }> extends React.PureComponen
 
   private handleChange = <T extends Extract<keyof Values, string>>(
     name: T,
-    value: Values[T] | React.ChangeEvent<{ value: string }>
+    value: Values[T] | (Values[T] extends string ? React.ChangeEvent<{ value: string }> : never)
   ) => {
     // Check if passed value is an event and use it's value
-    if (isEvent(value)) {
-      value = getValueFromEvent(value)
-    }
+    const sanitizedValue = isEvent(value) ? (getValueFromEvent(value) as Values[T]) : value
 
     this.setState(
       state => ({
         values: {
-          // @ts-ignore Sadly spreading generic values still not work in typescript
           ...state.values,
-          [name]: value,
+          [name]: sanitizedValue,
         },
       }),
       () => {
         this.handleValidate()
         if (this.props.onChange) {
-          this.props.onChange(this.state.values, this.getPyroFormActions())
+          this.props.onChange(this.state.values, this.getChangeData(name, sanitizedValue))
         }
       }
     )
@@ -138,11 +156,9 @@ class PyroForm<Values extends { [key: string]: any }> extends React.PureComponen
     this.setTouched(name)
   }
 
-  // @ts-ignore Since the usage of name and value below is also ignored this will throw an unused parameter error
   private setTouched = <T extends Extract<keyof Values, string>>(name: T) => {
     this.setState(state => ({
       touched: {
-        // @ts-ignore Sadly spreading generic values still not work in typescript
         ...state.touched,
         [name]: true,
       },
@@ -159,14 +175,14 @@ class PyroForm<Values extends { [key: string]: any }> extends React.PureComponen
     return Object.keys(this.getErrors()).length === 0
   }
 
-  private handleValidate = () => {
+  private handleValidate = <T extends Extract<keyof Values, string>>() => {
     const { onValidate, onValid, onInvalid } = this.props
 
     if (!onValidate) return
 
     this.setState(
       state => ({
-        errors: onValidate(state.values, this.getPyroFormActions()),
+        errors: onValidate(state.values),
       }),
       () => {
         if (this.isValid()) {

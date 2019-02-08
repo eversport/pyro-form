@@ -25,14 +25,7 @@ export class ComplexInput<
   public render() {
     return (
       <PyroField<InitialValuesType> name={this.props.name}>
-        {({ core }) => (
-          <input
-            {...this.props}
-            {...core}
-            // tslint:disable-next-line:jsx-no-lambda
-            onChange={(e: ChangeEvent<HTMLInputElement>) => core.onChange(getValueFromEvent(e))}
-          />
-        )}
+        {({ core }) => <input {...this.props} {...core} />}
       </PyroField>
     )
   }

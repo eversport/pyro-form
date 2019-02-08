@@ -5,3 +5,5 @@ export const getValueFromEvent = (event: React.SyntheticEvent<{ value: string }>
 
 export const isEvent = (event: any): event is React.SyntheticEvent<{ value: string }> =>
   event && event.target && typeof event.target.value === 'string'
+
+export const isPromise = (value: any): boolean => Boolean(value) && typeof value.then === 'function'
