@@ -45,6 +45,7 @@ Here is a simple example for a login form.
 ``` jsx harmony
 // Define initial values for the form
 const initialValues = {
+  name: '',
   email: '',
   password: '',
 }
@@ -61,6 +62,7 @@ export const BasicExample = () => (
     {({ handleSubmit }) => (
       <form onSubmit={handleSubmit}>
         <h1>Basic Example</h1>
+        <HookInput name="name" type="text" />
         <ComplexInput name="email" type="email" />
         <SimpleInput name="password" type="password" />
         <button type="submit">Submit</button>
@@ -70,7 +72,9 @@ export const BasicExample = () => (
 )
 ```
 
-The referenced inputs look like this:
+### Input Implementations
+
+The preferred one is using hooks: 
 
 ``` jsx harmony
 const HookInput = (props) => {
@@ -78,8 +82,9 @@ const HookInput = (props) => {
 
   return <input {...props} {...core} />
 }
-
 ```
+
+But you can also stay classy with render props
 
 ``` jsx harmony
 // Wrap a simple input with the field (PyroField recognices events and pulls there value automatically)
