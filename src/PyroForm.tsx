@@ -1,5 +1,5 @@
 import React from 'react'
-import { getValueFromEvent, isEvent, isPromise } from './helper'
+import { getValueFromEvent, isEvent, isFunction, isPromise } from './helper'
 import { PyroContextProps, PyroProvider } from './PyroContext'
 import { PyroFormErrors, PyroFormTouched, PyroFormValues } from './typings'
 
@@ -28,7 +28,7 @@ interface RenderProps<Values> {
 
 interface PyroFormProps<Values extends PyroFormValues> {
   initialValues: Values
-  children: (renderProps: RenderProps<Values>) => React.ReactNode
+  children: ((renderProps: RenderProps<Values>) => React.ReactNode) | React.ReactNode
   errors?: PyroFormErrors<Values>
   onSubmit?: (values: Values, actions: PyroFormSubmitData<Values>) => void | Promise<void>
   onChange?: (values: Values, actions: PyroFormChangeData<Values, any>) => void | Promise<void>
@@ -68,7 +68,8 @@ class PyroForm<Values extends { [key: string]: any }> extends React.PureComponen
   }
 
   public render() {
-    // TODO: Add some error handling here if no children are passed
+    const { children } = this.props
+
     const contextValue = {
       values: this.state.values,
       errors: this.getErrors(),
@@ -79,12 +80,14 @@ class PyroForm<Values extends { [key: string]: any }> extends React.PureComponen
 
     return (
       <PyroProvider value={contextValue}>
-        {this.props.children({
-          handleSubmit: this.handleSubmit,
-          values: this.state.values,
-          errors: this.getErrors(),
-          hasErrors: !this.isValid(),
-        })}
+        {isFunction(children)
+          ? children({
+              handleSubmit: this.handleSubmit,
+              values: this.state.values,
+              errors: this.getErrors(),
+              hasErrors: !this.isValid(),
+            })
+          : children}
       </PyroProvider>
     )
   }

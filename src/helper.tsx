@@ -7,3 +7,6 @@ export const isEvent = (event: any): event is React.SyntheticEvent<{ value: stri
   event && event.target && typeof event.target.value === 'string'
 
 export const isPromise = (value: any): boolean => Boolean(value) && typeof value.then === 'function'
+
+// tslint:disable-next-line:ban-types
+export const isFunction = (value: any): value is Function => typeof value === 'function'

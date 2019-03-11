@@ -40,7 +40,7 @@ const onChange = (
   }
 }
 
-// PyroForm expects a render function as a child (if you don't know what this is you can
+// PyroForm expects normal react nodes as a child or a render function (if you don't know what this is you can
 // read more here: https://reactjs.org/docs/render-props.html#using-props-other-than-render)
 // Note: If you are not a typescript person you might wonder what these
 // weird "<InitialValues>" things in the component are. Just leave them out ;)
