@@ -2,6 +2,8 @@
 
 Pyro-Form is a fast and simple form manager that helps you with managing the state of components in a form. It's also unbelievably small and has **ZERO** external dependencies. Give it a try!
 
+ 🔥 **Now with react hooks support** 🔥 
+
 ## Why use Pyro-Form
 
 Compact, simple and fast state management in react is hard. Pyro-Form takes away all the worries while still allowing you to hook into every process you want. I allows you to build forms fast, keeps overhead minimal and makes maintainability a breeze. 
@@ -18,8 +20,8 @@ You probably think now "Ok I get why I need to use a form manager. But why shoul
   
 | | Redux-Form | Formik | React-Form | Pyro-Form |
 | --- | --- | --- | --- | --- |
-| **Minified** | 117.5kB | 39.7kB | 113.1kB | **2.9kB** |
-| **Minified+Gzipped** | 27.4kB | 11.4kB | 30.1kB | **1.1kB** |
+| **Minified** | 99.4kB | 40.6kB | 113.1kB | **5.8kB** |
+| **Minified+Gzipped** | 26.7kB | 12kB | 30.1kB | **2.1kB** |
 
 ## Installation
 
@@ -43,6 +45,7 @@ Here is a simple example for a login form.
 ``` jsx harmony
 // Define initial values for the form
 const initialValues = {
+  name: '',
   email: '',
   password: '',
 }
@@ -59,6 +62,7 @@ export const BasicExample = () => (
     {({ handleSubmit }) => (
       <form onSubmit={handleSubmit}>
         <h1>Basic Example</h1>
+        <HookInput name="name" type="text" />
         <ComplexInput name="email" type="email" />
         <SimpleInput name="password" type="password" />
         <button type="submit">Submit</button>
@@ -68,7 +72,19 @@ export const BasicExample = () => (
 )
 ```
 
-The referenced inputs look like this:
+### Input Implementations
+
+The preferred one is using hooks: 
+
+``` jsx harmony
+const HookInput = (props) => {
+  const { core, meta } = usePyroField(props.name)
+
+  return <input {...props} {...core} />
+}
+```
+
+But you can also stay classy with render props
 
 ``` jsx harmony
 // Wrap a simple input with the field (PyroField recognices events and pulls there value automatically)
