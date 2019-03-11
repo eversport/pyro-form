@@ -74,6 +74,7 @@ class PyroForm<Values extends { [key: string]: any }> extends React.PureComponen
       values: this.state.values,
       errors: this.getErrors(),
       touched: this.state.touched,
+      handleSubmit: this.handleSubmit,
       handleChange: this.handleChange,
       handleBlur: this.handleBlur,
     }

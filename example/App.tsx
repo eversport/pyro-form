@@ -1,10 +1,11 @@
 import React from 'react'
 import { hot } from 'react-hot-loader'
-import { BasicExample } from './BasicExample'
+import { BasicExample, ComplexExample } from './BasicExample'
 
 const App = () => (
   <div>
     <BasicExample />
+    <ComplexExample />
   </div>
 )
 

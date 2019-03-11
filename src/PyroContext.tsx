@@ -19,4 +19,5 @@ export interface PyroContextProps<
   touched: PyroFormTouched<Values>
   handleChange: (name: Name, value: Values[Name]) => void
   handleBlur: (name: Name) => void
+  handleSubmit: (e?: React.FormEvent<HTMLFormElement>) => void | Promise<void>
 }

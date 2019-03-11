@@ -1,5 +1,5 @@
 import React from 'react'
-import PyroForm, { PyroFormChangeData } from '../'
+import PyroForm, { Form, PyroFormChangeData } from '../'
 import { ComplexInput, SimpleInput } from './CustomInput'
 import HookInput from './HookInput'
 
@@ -40,15 +40,30 @@ const onChange = (
   }
 }
 
-// PyroForm expects normal react nodes as a child or a render function (if you don't know what this is you can
-// read more here: https://reactjs.org/docs/render-props.html#using-props-other-than-render)
+// PyroForm expects normal react nodes as a child
 // Note: If you are not a typescript person you might wonder what these
 // weird "<InitialValues>" things in the component are. Just leave them out ;)
 export const BasicExample = () => (
   <PyroForm initialValues={initialValues} onSubmit={onSubmit} onChange={onChange}>
-    {({ handleSubmit }) => (
+    <Form>
+      <h1>Basic Example</h1>
+      <HookInput<InitialValues> name="name" type="text" />
+      <ComplexInput<InitialValues> name="email" type="email" />
+      <SimpleInput<InitialValues> name="password" type="password" />
+      <button type="submit">Submit</button>
+    </Form>
+  </PyroForm>
+)
+
+// You can also pass in a render function (if you don't know what this is you can
+// read more here: https://reactjs.org/docs/render-props.html#using-props-other-than-render)
+// to have more fine-grained control over your forms
+export const ComplexExample = () => (
+  <PyroForm initialValues={initialValues} onSubmit={onSubmit} onChange={onChange}>
+    {({ handleSubmit, values }) => (
       <form onSubmit={handleSubmit}>
-        <h1>Basic Example</h1>
+        <h1>Complex Example</h1>
+        <p>{JSON.stringify(values)}</p>
         <HookInput<InitialValues> name="name" type="text" />
         <ComplexInput<InitialValues> name="email" type="email" />
         <SimpleInput<InitialValues> name="password" type="password" />
