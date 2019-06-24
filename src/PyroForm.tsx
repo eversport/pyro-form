@@ -1,6 +1,6 @@
 import React from 'react'
 import { getValueFromEvent, isEvent, isFunction, isPromise } from './helper'
-import { PyroContextProps, PyroProvider } from './PyroContext'
+import { PyroProvider } from './PyroContext'
 import { PyroFormErrors, PyroFormTouched, PyroFormValues } from './typings'
 
 export interface PyroFormChangeData<Values, T extends Extract<keyof Values, string>> {
@@ -21,6 +21,10 @@ export interface PyroFormSubmitData<Values> {
 
 interface RenderProps<Values> {
   handleSubmit: () => void
+  handleChange: <T extends Extract<keyof Values, string>>(
+    name: T,
+    value: Values[T] | (Values[T] extends string ? React.ChangeEvent<{ value: string }> : never)
+  ) => void
   values: Values
   hasErrors: boolean
   errors: PyroFormErrors<Values>
@@ -84,6 +88,7 @@ class PyroForm<Values extends { [key: string]: any }> extends React.PureComponen
         {isFunction(children)
           ? children({
               handleSubmit: this.handleSubmit,
+              handleChange: this.handleChange,
               values: this.state.values,
               errors: this.getErrors(),
               hasErrors: !this.isValid(),
