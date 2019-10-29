@@ -11,3 +11,41 @@ export interface PyroFieldProps<Values = any, Name extends Extract<keyof Values,
   name: Name
   children: (props: PyroFieldInnerRenderProps<Values, Name>) => React.ReactNode
 }
+
+export interface PyroFormChangeData<Values, T extends Extract<keyof Values, string>> {
+  changedName: T
+  changedValue: Values[T]
+  onChange: (
+    name: T,
+    value: Values[T] | (Values[T] extends string ? React.ChangeEvent<{ value: string }> : never)
+  ) => void
+}
+
+export interface PyroFormSubmitData<Values> {
+  onChange: <T extends Extract<keyof Values, string>>(
+    name: T,
+    value: Values[T] | (Values[T] extends string ? React.ChangeEvent<{ value: string }> : never)
+  ) => void
+}
+
+export interface RenderProps<Values> {
+  handleSubmit: () => void
+  handleChange: <T extends Extract<keyof Values, string>>(
+    name: T,
+    value: Values[T] | (Values[T] extends string ? React.ChangeEvent<{ value: string }> : never)
+  ) => void
+  values: Values
+  hasErrors: boolean
+  errors: PyroFormErrors<Values>
+}
+
+export interface PyroFormProps<Values> {
+  initialValues: Values
+  children: ((renderProps: RenderProps<Values>) => React.ReactNode) | React.ReactNode
+  errors?: PyroFormErrors<Values>
+  onSubmit?: (values: Values) => void | Promise<void>
+  onChange?: (values: Values, actions: PyroFormChangeData<Values, any>) => void | Promise<void>
+  onValidate?: (values: Values) => PyroFormErrors<Values>
+  onValid?: () => void
+  onInvalid?: () => void
+}

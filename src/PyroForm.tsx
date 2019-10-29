@@ -1,207 +1,127 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { getValueFromEvent, isEvent, isFunction, isPromise } from './helper'
 import { PyroProvider } from './PyroContext'
-import { PyroFormErrors, PyroFormTouched, PyroFormValues } from './typings'
+import { PyroFormProps } from './typings'
 
-export interface PyroFormChangeData<Values, T extends Extract<keyof Values, string>> {
-  changedName: T
-  changedValue: Values[T]
-  onChange: (
-    name: T,
-    value: Values[T] | (Values[T] extends string ? React.ChangeEvent<{ value: string }> : never)
-  ) => void
+function createValues<Values, T>(values: Values, value: T): Record<keyof Values, T> {
+  return Object.keys(values).reduce(
+    (previousValue, currentValue) => ({
+      ...previousValue,
+      [currentValue]: value,
+    }),
+    {}
+  ) as Record<keyof Values, T>
 }
 
-export interface PyroFormSubmitData<Values> {
-  onChange: <T extends Extract<keyof Values, string>>(
-    name: T,
-    value: Values[T] | (Values[T] extends string ? React.ChangeEvent<{ value: string }> : never)
-  ) => void
-}
+const PyroForm2 = <Values extends {}>({
+  initialValues,
+  onValidate: handleValidate,
+  onSubmit: handleSubmit,
+  children,
+}: PyroFormProps<Values>) => {
+  const [isMounted, setIsMounted] = useState(true)
+  const [values, setValues] = useState(initialValues)
+  const [touched, setTouched] = useState(createValues(initialValues, false))
+  const [errors, setErrors] = useState({})
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [openValidations, setOpenValidations] = useState(0)
+  const [submitCount, setSubmitCount] = useState(0)
 
-interface RenderProps<Values> {
-  handleSubmit: () => void
-  handleChange: <T extends Extract<keyof Values, string>>(
-    name: T,
-    value: Values[T] | (Values[T] extends string ? React.ChangeEvent<{ value: string }> : never)
-  ) => void
-  values: Values
-  hasErrors: boolean
-  errors: PyroFormErrors<Values>
-}
+  const onValidate = React.useCallback(async () => {
+    if (!handleValidate) return
+    const validateResult = handleValidate(values)
 
-interface PyroFormProps<Values extends PyroFormValues> {
-  initialValues: Values
-  children: ((renderProps: RenderProps<Values>) => React.ReactNode) | React.ReactNode
-  errors?: PyroFormErrors<Values>
-  onSubmit?: (values: Values, actions: PyroFormSubmitData<Values>) => void | Promise<void>
-  onChange?: (values: Values, actions: PyroFormChangeData<Values, any>) => void | Promise<void>
-  onValidate?: (values: Values) => PyroFormErrors<Values>
-  onValid?: () => void
-  onInvalid?: () => void
-}
-
-interface PyroFormState<Values> {
-  values: Values
-  errors: PyroFormErrors<Values>
-  touched: PyroFormTouched<Values>
-  isSubmitting: boolean
-  submitCount: number
-}
-
-class PyroForm<Values extends { [key: string]: any }> extends React.PureComponent<
-  PyroFormProps<Values>,
-  PyroFormState<Values>
-> {
-  public state = {
-    values: this.props.initialValues,
-    touched: Object.keys(this.props.initialValues).reduce(
-      (previousValue, currentValue) => ({
-        ...previousValue,
-        [currentValue]: false,
-      }),
-      {}
-    ) as PyroFormState<Values>['touched'],
-    errors: {},
-    isSubmitting: false,
-    submitCount: 0,
-  }
-
-  public componentDidMount() {
-    this.handleValidate()
-  }
-
-  public render() {
-    const { children } = this.props
-
-    const contextValue = {
-      values: this.state.values,
-      errors: this.getErrors(),
-      touched: this.state.touched,
-      handleSubmit: this.handleSubmit,
-      handleChange: this.handleChange,
-      handleBlur: this.handleBlur,
+    if (isPromise(validateResult)) {
+      setOpenValidations(openValidations + 1)
+      await validateResult
+      setOpenValidations(openValidations - 1)
     }
 
-    return (
-      <PyroProvider value={contextValue}>
-        {isFunction(children)
-          ? children({
-              handleSubmit: this.handleSubmit,
-              handleChange: this.handleChange,
-              values: this.state.values,
-              errors: this.getErrors(),
-              hasErrors: !this.isValid(),
-            })
-          : children}
-      </PyroProvider>
-    )
-  }
+    // TODO: Just do if mounted
+    setErrors(validateResult)
+  }, [])
 
-  private getChangeData = <T extends Extract<keyof Values, string>>(
-    changedName: T,
-    changedValue: Values[T]
-  ): PyroFormChangeData<Values, T> => ({
-    changedName,
-    changedValue,
-    onChange: this.handleChange,
-  })
+  const touchValue = React.useCallback((name: keyof Values) => {
+    setTouched(oldTouched => ({
+      ...oldTouched,
+      [name]: true,
+    }))
+  }, [])
 
-  private getSubmitData = (): PyroFormSubmitData<Values> => ({
-    onChange: this.handleChange,
-  })
-
-  private getErrors = (): PyroFormErrors<Values> => ({ ...this.state.errors, ...this.props.errors })
-
-  private handleSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
     if (e) {
       e.preventDefault()
+      e.stopPropagation()
     }
 
-    this.setTouchedAll()
-    const { onSubmit } = this.props
+    // Touch all values
+    setTouched(createValues(initialValues, true))
 
-    if (onSubmit) {
-      const result = onSubmit(this.state.values, this.getSubmitData())
+    // Execute submit action if defined
+    if (handleSubmit) {
+      const submitResult = handleSubmit(values)
 
-      if (isPromise(result)) {
-        this.setState({
-          isSubmitting: true,
-        })
-        await result
+      // Await async submits
+      if (isPromise(submitResult)) {
+        setIsSubmitting(true)
+        await submitResult
       }
     }
 
-    this.setState(state => ({
-      isSubmitting: false,
-      submitCount: state.submitCount + 1,
-    }))
+    // TODO: Just do if mounted
+    // Indicate a finished submission
+    setIsSubmitting(false)
+    setSubmitCount(submitCount + 1)
   }
 
-  private handleChange = <T extends Extract<keyof Values, string>>(
-    name: T,
-    value: Values[T] | (Values[T] extends string ? React.ChangeEvent<{ value: string }> : never)
-  ) => {
-    // Check if passed value is an event and use it's value
-    const sanitizedValue = isEvent(value) ? (getValueFromEvent(value) as Values[T]) : value
+  const onChange = React.useCallback(
+    <Name extends keyof Values>(
+      name: Name,
+      value:
+        | Values[Name]
+        | (Values[Name] extends string ? React.ChangeEvent<{ value: string }> : never)
+    ) => {
+      // Check if passed value is an event and use it's value
+      const sanitizedValue = isEvent(value) ? getValueFromEvent(value) : value
 
-    this.setState(
-      state => ({
-        values: {
-          ...state.values,
-          [name]: sanitizedValue,
-        },
-      }),
-      () => {
-        this.handleValidate()
-        if (this.props.onChange) {
-          this.props.onChange(this.state.values, this.getChangeData(name, sanitizedValue))
-        }
-      }
-    )
+      // Set updated value
+      setValues(oldValues => ({
+        ...oldValues,
+        [name]: sanitizedValue,
+      }))
+    },
+    []
+  )
+
+  const onBlur = React.useCallback((name: keyof Values) => {
+    touchValue(name)
+  }, [])
+
+  // Trigger validation every time values change
+  useEffect(() => {
+    // TODO: Use low scheduler priority
+    onValidate()
+  }, [values])
+
+  const contextValue = {
+    errors,
+    touched,
+    values,
+    handleBlur: onBlur,
+    handleChange: onChange,
+    handleSubmit: onSubmit,
   }
 
-  private handleBlur = <T extends Extract<keyof Values, string>>(name: T) => {
-    this.setTouched(name)
-  }
-
-  private setTouched = <T extends Extract<keyof Values, string>>(name: T) => {
-    this.setState(state => ({
-      touched: {
-        ...state.touched,
-        [name]: true,
-      },
-    }))
-  }
-
-  private setTouchedAll = () => {
-    for (const key of Object.keys(this.state.values)) {
-      this.setTouched(key as Extract<keyof Values, string>)
-    }
-  }
-
-  private isValid = (): boolean => {
-    return Object.keys(this.getErrors()).length === 0
-  }
-
-  private handleValidate = <T extends Extract<keyof Values, string>>() => {
-    const { onValidate, onValid, onInvalid } = this.props
-
-    if (!onValidate) return
-
-    this.setState(
-      state => ({
-        errors: onValidate(state.values),
-      }),
-      () => {
-        if (this.isValid()) {
-          onValid && onValid()
-        } else {
-          onInvalid && onInvalid()
-        }
-      }
-    )
-  }
+  return (
+    <PyroProvider value={contextValue}>
+      {isFunction(children)
+        ? children({
+            ...contextValue,
+            hasErrors: Object.keys(errors).length !== 0,
+          })
+        : children}
+    </PyroProvider>
+  )
 }
 
-export default PyroForm
+export default PyroForm2
