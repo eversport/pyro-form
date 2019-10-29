@@ -16,11 +16,11 @@ You probably think now "Ok I get why I need to use a form manager. But why shoul
 
 3) **100% built in Typescript** - Almost everything is strictly typed. This not only makes it easier for us to provide high-quality and maintainable code for you, but also allows you to use our typings to make your code better. 
 
-#### Comparison with the most popular form management libraries for react
+#### Size comparison with the most popular form management libraries for react (https://bundlephobia.com/result?p=pyro-form)
   
 | | Redux-Form | Formik | React-Form | Pyro-Form |
 | --- | --- | --- | --- | --- |
-| **Minified** | 99.4kB | 40.6kB | 113.1kB | **5.8kB** |
+| **Minified** | 99.4kB | 40.6kB | 113.1kB | **5.3kB** |
 | **Minified+Gzipped** | 26.7kB | 12kB | 30.1kB | **2.1kB** |
 
 ## Installation
