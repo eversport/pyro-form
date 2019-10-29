@@ -10,3 +10,13 @@ export const isPromise = (value: any): boolean => Boolean(value) && typeof value
 
 // tslint:disable-next-line:ban-types
 export const isFunction = (value: any): value is Function => typeof value === 'function'
+
+export function createValues<Values, T>(values: Values, value: T): Record<keyof Values, T> {
+  return Object.keys(values).reduce(
+    (previousValue, currentValue) => ({
+      ...previousValue,
+      [currentValue]: value,
+    }),
+    {}
+  ) as Record<keyof Values, T>
+}

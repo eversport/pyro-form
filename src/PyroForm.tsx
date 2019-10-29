@@ -1,19 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { getValueFromEvent, isEvent, isFunction, isPromise } from './helper'
+import { createValues, getValueFromEvent, isEvent, isFunction, isPromise } from './helper'
 import { PyroProvider } from './PyroContext'
 import { PyroFormProps } from './typings'
 
-function createValues<Values, T>(values: Values, value: T): Record<keyof Values, T> {
-  return Object.keys(values).reduce(
-    (previousValue, currentValue) => ({
-      ...previousValue,
-      [currentValue]: value,
-    }),
-    {}
-  ) as Record<keyof Values, T>
-}
-
-const PyroForm2 = <Values extends {}>({
+const PyroForm = <Values extends {}>({
   initialValues,
   onValidate: handleValidate,
   onSubmit: handleSubmit,
@@ -124,4 +114,4 @@ const PyroForm2 = <Values extends {}>({
   )
 }
 
-export default PyroForm2
+export default PyroForm
