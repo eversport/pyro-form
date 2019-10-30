@@ -129,9 +129,12 @@ TODO
 
 - [Eversports](https://eversports.com)
 
-## TODO
+## Next Steps
 
-- [x] Add ts-lint
-- [x] Add example
-- [ ] Add tests
-- [ ] Add documentation
+### In progress
+
+- Add tests
+
+### Todo
+
+- Add documentation
