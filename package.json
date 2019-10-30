@@ -11,11 +11,11 @@
     "field"
   ],
   "scripts": {
+    "test": "jest",
     "example:dev": "tsc --project config && webpack-dev-server --config config/webpack.config.js --port 3000 --hot",
     "example:build": "tsc --project config && webpack-cli --config config/webpack.config.js",
     "lib:build": "tsc --project config && rollup -c config/rollup.config.js",
     "lib:dev": "tsc --project config && rollup -c config/rollup.config.js --watch",
-    "precommit": "lint-staged",
     "all:build": "yarn lib:build && yarn example:build && git add public && lint-staged",
     "publish-patch": "git pull origin master && yarn all:build && yarn publish --patch && git push origin master --tags",
     "publish-minor": "git pull origin master && yarn all:build && yarn publish --minor && git push origin master --tags",
@@ -32,6 +32,12 @@
       "git add"
     ]
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "yarn test"
+    }
+  },
   "main": "dist/pyro-form.cjs.js",
   "module": "dist/pyro-form.esm.js",
   "browser": "dist/pyro-form.umd.js",
@@ -46,12 +52,16 @@
     "react": "^16.8.1"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^4.2.0",
+    "@testing-library/react": "^9.3.0",
     "@types/html-webpack-plugin": "^3.2.1",
+    "@types/jest": "^24.0.21",
     "@types/react": "^16.9.11",
     "@types/react-dom": "^16.9.3",
     "@types/webpack": "^4.39.5",
     "html-webpack-plugin": "^3.2.0",
     "husky": "^3.0.9",
+    "jest": "^24.9.0",
     "lint-staged": "^9.4.2",
     "prettier": "^1.18.2",
     "react": "^16.11.0",
@@ -60,6 +70,7 @@
     "rollup": "^1.26.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-typescript2": "^0.25.1",
+    "ts-jest": "^24.1.0",
     "ts-loader": "^6.2.1",
     "tslint": "^5.20.0",
     "tslint-consistent-codestyle": "^1.16.0",

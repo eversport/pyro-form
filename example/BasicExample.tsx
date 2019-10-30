@@ -18,7 +18,8 @@ const initialValues = {
 }
 
 // Define an onSubmit handler (this is optional, you could also instead define an onChange handler)
-const onSubmit = (values: InitialValues) => {
+const onSubmit = (setSubmitted: (value: boolean) => void) => (values: InitialValues) => {
+  setSubmitted(true)
   // tslint:disable-next-line:no-console
   console.log('onSubmit', values)
 }
@@ -43,32 +44,40 @@ const onChange = (
 // PyroForm expects normal react nodes as a child
 // Note: If you are not a typescript person you might wonder what these
 // weird "<InitialValues>" things in the component are. Just leave them out ;)
-export const BasicExample = () => (
-  <PyroForm initialValues={initialValues} onSubmit={onSubmit} onChange={onChange}>
-    <Form>
-      <h1>Basic Example</h1>
-      <HookInput<InitialValues> name="name" type="text" />
-      <ComplexInput<InitialValues> name="email" type="email" />
-      <SimpleInput<InitialValues> name="password" type="password" />
-      <button type="submit">Submit</button>
-    </Form>
-  </PyroForm>
-)
+export const BasicExample = () => {
+  const [submitted, setSubmitted] = React.useState(false)
+  return (
+    <PyroForm initialValues={initialValues} onSubmit={onSubmit(setSubmitted)} onChange={onChange}>
+      <Form>
+        <h1>Basic Example</h1>
+        <HookInput<InitialValues> name="name" type="text" />
+        <ComplexInput<InitialValues> name="email" type="email" />
+        <SimpleInput<InitialValues> name="password" type="password" />
+        <button type="submit">Submit basic</button>
+        {submitted && <div data-testid="basic-submitted">Basic submitted</div>}
+      </Form>
+    </PyroForm>
+  )
+}
 
 // You can also pass in a render function (if you don't know what this is you can
 // read more here: https://reactjs.org/docs/render-props.html#using-props-other-than-render)
 // to have more fine-grained control over your forms
-export const ComplexExample = () => (
-  <PyroForm initialValues={initialValues} onSubmit={onSubmit} onChange={onChange}>
-    {({ handleSubmit, values }) => (
-      <form onSubmit={handleSubmit}>
-        <h1>Complex Example</h1>
-        <p>{JSON.stringify(values)}</p>
-        <HookInput<InitialValues> name="name" type="text" />
-        <ComplexInput<InitialValues> name="email" type="email" />
-        <SimpleInput<InitialValues> name="password" type="password" />
-        <button type="submit">Submit</button>
-      </form>
-    )}
-  </PyroForm>
-)
+export const ComplexExample = () => {
+  const [submitted, setSubmitted] = React.useState(false)
+  return (
+    <PyroForm initialValues={initialValues} onSubmit={onSubmit(setSubmitted)} onChange={onChange}>
+      {({ handleSubmit, values }) => (
+        <form onSubmit={handleSubmit}>
+          <h1>Complex Example</h1>
+          <p>{JSON.stringify(values)}</p>
+          <HookInput<InitialValues> name="name" type="text" />
+          <ComplexInput<InitialValues> name="email" type="email" />
+          <SimpleInput<InitialValues> name="password" type="password" />
+          <button type="submit">Submit Complex</button>
+          {submitted && <div data-testid="complex-submitted">Complex submitted</div>}
+        </form>
+      )}
+    </PyroForm>
+  )
+}
