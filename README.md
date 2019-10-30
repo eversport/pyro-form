@@ -138,4 +138,5 @@ TODO
 ### Todo
 
 - Add documentation
+- Add test runner
 - Add benchmarks
