@@ -100,6 +100,7 @@ const PyroForm = <Values extends {}>({
     handleBlur: onBlur,
     handleChange: onChange,
     handleSubmit: onSubmit,
+    isSubmitting,
   }
 
   return (

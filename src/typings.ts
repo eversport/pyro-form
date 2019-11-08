@@ -36,6 +36,7 @@ export interface RenderProps<Values> {
   ) => void
   values: Values
   hasErrors: boolean
+  isSubmitting: boolean
   errors: PyroFormErrors<Values>
 }
 
